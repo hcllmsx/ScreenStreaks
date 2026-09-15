@@ -1,4 +1,4 @@
-// ScreenStreaks —— 屏幕纵向线条缺陷模拟工具
+// 屏幕亮线（ScreenStreaks）—— 屏幕纵向线条缺陷模拟工具
 // Copyright (C) 2026 hcllmsx
 //
 // This program is free software: you can redistribute it and/or modify
@@ -88,7 +88,7 @@ public partial class App : Application
         {
             Logger.Error("启动流程失败", ex);
             MessageBox.Show(
-                "ScreenStreaks 启动失败：\n" + ex.Message + "\n\n详细日志：" + AppPaths.LogFile,
+                AppInfo.DisplayName + " 启动失败：\n" + ex.Message + "\n\n详细日志：" + AppPaths.LogFile,
                 AppInfo.DisplayName,
                 MessageBoxButton.OK,
                 MessageBoxImage.Error);

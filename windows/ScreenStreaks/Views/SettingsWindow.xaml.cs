@@ -1,4 +1,4 @@
-// ScreenStreaks —— 屏幕纵向线条缺陷模拟工具
+// 屏幕亮线（ScreenStreaks）—— 屏幕纵向线条缺陷模拟工具
 // Copyright (C) 2026 hcllmsx
 //
 // This program is free software: you can redistribute it and/or modify
@@ -415,7 +415,7 @@ public partial class SettingsWindow : Window
         MessageBoxResult result = MessageBox.Show(
             this,
             "将删除全部已选区域，展示态也会一并退出。确定继续吗？",
-            "ScreenStreaks",
+            AppInfo.DisplayName,
             MessageBoxButton.OKCancel,
             MessageBoxImage.Warning);
 

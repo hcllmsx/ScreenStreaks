@@ -1,4 +1,4 @@
-// ScreenStreaks —— 屏幕纵向线条缺陷模拟工具
+// 屏幕亮线（ScreenStreaks）—— 屏幕纵向线条缺陷模拟工具
 // Copyright (C) 2026 hcllmsx
 //
 // This program is free software: you can redistribute it and/or modify
@@ -25,8 +25,20 @@ namespace ScreenStreaks.Infrastructure;
 /// </summary>
 public static class AppInfo
 {
-    public const string DisplayName = "ScreenStreaks";
+    /// <summary>
+    /// 中文显示名。所有面向用户的界面 —— 窗口标题、托盘提示、消息框 —— 统一用它。
+    /// </summary>
+    public const string DisplayName = "屏幕亮线";
 
+    /// <summary>
+    /// 英文名。只作为次要标注出现，**不是标识符**。
+    ///
+    /// exe 文件名、注册表自启项、%APPDATA% 数据目录仍一律使用 ScreenStreaks：
+    /// 那些地方一旦改动，会导致已有配置丢失、自启项变孤儿。不要为了「统一」去动。
+    /// </summary>
+    public const string EnglishName = "ScreenStreaks";
+
+    /// <summary>副标题，与英文名一起显示在标题下方</summary>
     public const string Tagline = "屏幕纵向线条缺陷模拟";
 
     public static string Version { get; } = ResolveVersion();

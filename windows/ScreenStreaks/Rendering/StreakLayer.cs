@@ -1,4 +1,4 @@
-// ScreenStreaks —— 屏幕纵向线条缺陷模拟工具
+// 屏幕亮线（ScreenStreaks）—— 屏幕纵向线条缺陷模拟工具
 // Copyright (C) 2026 hcllmsx
 //
 // This program is free software: you can redistribute it and/or modify

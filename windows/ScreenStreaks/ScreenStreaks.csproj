@@ -1,5 +1,5 @@
 <!--
-    ScreenStreaks —— 屏幕纵向线条缺陷模拟工具
+    屏幕亮线（ScreenStreaks）—— 屏幕纵向线条缺陷模拟工具
     Copyright (C) 2026 hcllmsx
 
     This program is free software: you can redistribute it and/or modify
@@ -64,7 +64,15 @@
        产品信息
        ================================================================ -->
   <PropertyGroup>
-    <Product>ScreenStreaks</Product>
+    <!--
+      这里的三项都会显示在 Windows 的界面里：
+        AssemblyTitle  -> 文件属性「文件说明」、任务管理器「描述」列
+        Product        -> 文件属性「产品名称」
+        Description    -> 文件属性「详细信息」
+      英文名 ScreenStreaks 保留在程序集名与 exe 文件名上，不在这里重复。
+    -->
+    <AssemblyTitle>屏幕亮线</AssemblyTitle>
+    <Product>屏幕亮线</Product>
     <Company>ScreenStreaks</Company>
     <Description>屏幕纵向线条缺陷模拟工具</Description>
     <Copyright>Copyright (c) 2026 hcllmsx</Copyright>

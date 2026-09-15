@@ -1,5 +1,5 @@
 <!--
-    ScreenStreaks —— 屏幕纵向线条缺陷模拟工具
+    屏幕亮线（ScreenStreaks）—— 屏幕纵向线条缺陷模拟工具
     Copyright (C) 2026 hcllmsx
 
     This program is free software: you can redistribute it and/or modify
@@ -19,7 +19,7 @@
 <Window x:Class="ScreenStreaks.Views.SettingsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="ScreenStreaks 设置"
+        Title="屏幕亮线 设置"
         Width="504"
         Height="700"
         WindowStyle="None"
