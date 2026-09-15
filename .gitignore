@@ -1,0 +1,24 @@
+# ---------- 本项目构建产出 ----------
+# dotnet publish 输出：ScreenStreaks.exe + 发布 zip
+dist/
+
+# 发布 zip 的打包素材（preview.mp4）
+_temp/
+
+# ---------- .NET / MSBuild 中间产物 ----------
+bin/
+obj/
+
+# ---------- Visual Studio ----------
+# 打开 windows/ScreenStreaks.sln 后生成
+.vs/
+
+# ScreenStreaks.csproj.user（用户级项目设置）
+*.user
+
+# ---------- VS Code ----------
+.vscode/
+
+# ---------- 本地个人工具 ----------
+scripts/
+build.bat
