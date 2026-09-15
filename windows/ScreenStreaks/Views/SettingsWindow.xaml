@@ -1,0 +1,270 @@
+<!--
+    ScreenStreaks —— 屏幕纵向线条缺陷模拟工具
+    Copyright (C) 2026 hcllmsx
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<Window x:Class="ScreenStreaks.Views.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ScreenStreaks 设置"
+        Width="504"
+        Height="700"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="NoResize"
+        ShowInTaskbar="True"
+        Topmost="False"
+        WindowStartupLocation="CenterScreen"
+        FontFamily="Microsoft YaHei UI, Segoe UI"
+        UseLayoutRounding="True"
+        TextOptions.TextFormattingMode="Ideal">
+
+    <Window.Resources>
+        <Style x:Key="SliderRowGrid" TargetType="Grid">
+            <Setter Property="Margin" Value="0,0,0,16" />
+        </Style>
+        <Style x:Key="SliderValueText" TargetType="TextBlock" BasedOn="{StaticResource CaptionText}">
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+        </Style>
+    </Window.Resources>
+
+    <!-- 整个窗口都可以拖动；按钮/滑杆/开关会自己把事件标记为已处理，不会误触发 -->
+    <Border Background="{StaticResource BgBrush}"
+            BorderBrush="{StaticResource BorderBrush}"
+            BorderThickness="1"
+            CornerRadius="14"
+            MouseLeftButtonDown="OnWindowDrag">
+        <Grid>
+            <Grid.RowDefinitions>
+                <!-- 分隔线必须独占一行。之前它和标题挤在同一个 Auto 行里，
+                     结果被顶到该行上方 16px 处，正好横穿「设置」两个字。 -->
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- ============ 标题 ============ -->
+            <Grid Grid.Row="0" Margin="22,20,22,0">
+                <StackPanel>
+                    <TextBlock x:Name="TitleText" Text="设置" Style="{StaticResource TitleText}" />
+                    <TextBlock Text="调整缺陷形态时可实时观察屏幕上的效果"
+                               Style="{StaticResource CaptionText}"
+                               Margin="0,4,0,0" />
+                </StackPanel>
+                <Button Content="✕"
+                        Style="{StaticResource GhostButton}"
+                        Padding="9,5"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Click="OnCloseClick" />
+            </Grid>
+
+            <Border x:Name="HeaderDivider" Grid.Row="1" Style="{StaticResource Divider}" Margin="22,16,22,0" />
+
+            <!-- ============ 内容 ============ -->
+            <ScrollViewer Grid.Row="2"
+                          VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled"
+                          Padding="22,2,22,0">
+                <StackPanel>
+
+                    <!-- ========== 缺陷参数 ========== -->
+                    <Border Style="{StaticResource Card}">
+                        <StackPanel>
+                            <TextBlock Text="缺陷参数" Style="{StaticResource SectionText}" />
+                            <TextBlock Style="{StaticResource CaptionText}"
+                                       Margin="0,-4,0,16"
+                                       Text="按真实面板故障建模：整数像素宽的坏列、贯穿整屏、不透明发光、无辉光。区域只决定哪些列出问题。" />
+
+                            <Grid Style="{StaticResource SliderRowGrid}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Style="{StaticResource LabelText}" Text="缺陷密度（每 1000 像素的坏列数）" />
+                                <TextBlock Grid.Row="0" x:Name="DensityValue" Style="{StaticResource SliderValueText}" />
+                                <Slider Grid.Row="1" x:Name="DensitySlider"
+                                        Style="{StaticResource FlatSlider}"
+                                        Minimum="0.5" Maximum="40"
+                                        Margin="0,4,0,0"
+                                        ValueChanged="OnSliderChanged" />
+                            </Grid>
+
+                            <Grid Style="{StaticResource SliderRowGrid}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Style="{StaticResource LabelText}" Text="发光强度" />
+                                <TextBlock Grid.Row="0" x:Name="IntensityValue" Style="{StaticResource SliderValueText}" />
+                                <Slider Grid.Row="1" x:Name="IntensitySlider"
+                                        Style="{StaticResource FlatSlider}"
+                                        Minimum="0.3" Maximum="1.0"
+                                        Margin="0,4,0,0"
+                                        ValueChanged="OnSliderChanged" />
+                            </Grid>
+
+                            <TextBlock Style="{StaticResource CaptionText}"
+                                       Margin="0,-8,0,16"
+                                       Text="1.0 = 该列被完全拉死，以面板最大亮度常亮。调低则模拟半失效的列，仍然不透明，只是发光更弱。" />
+
+                            <Grid Style="{StaticResource SliderRowGrid}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Style="{StaticResource LabelText}" Text="闪烁熄灭深度" />
+                                <TextBlock Grid.Row="0" x:Name="BlinkValue" Style="{StaticResource SliderValueText}" />
+                                <Slider Grid.Row="1" x:Name="BlinkSlider"
+                                        Style="{StaticResource FlatSlider}"
+                                        Minimum="0" Maximum="0.95"
+                                        Margin="0,4,0,0"
+                                        ValueChanged="OnSliderChanged" />
+                            </Grid>
+
+                            <Grid Style="{StaticResource SliderRowGrid}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Style="{StaticResource LabelText}" Text="单区域最大缺陷数（性能护栏）" />
+                                <TextBlock Grid.Row="0" x:Name="CountValue" Style="{StaticResource SliderValueText}" />
+                                <Slider Grid.Row="1" x:Name="CountSlider"
+                                        Style="{StaticResource FlatSlider}"
+                                        Minimum="1" Maximum="400"
+                                        Margin="0,4,0,0"
+                                        ValueChanged="OnSliderChanged" />
+                            </Grid>
+
+                            <TextBlock Style="{StaticResource LabelText}" Text="随机种子" Margin="0,0,0,8" />
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBox x:Name="SeedBox"
+                                         Grid.Column="0"
+                                         Style="{StaticResource InputBox}"
+                                         LostKeyboardFocus="OnSeedBoxCommit"
+                                         KeyDown="OnSeedBoxKeyDown" />
+                                <Button Grid.Column="1"
+                                        Content="换一组"
+                                        Style="{StaticResource GhostButton}"
+                                        Margin="8,0,0,0"
+                                        Click="OnRerollSeedClick" />
+                            </Grid>
+                            <TextBlock Style="{StaticResource CaptionText}"
+                                       Text="决定坏列的横向分布与形态。相同种子 + 相同区域 = 完全相同的结果，便于复现。" />
+                        </StackPanel>
+                    </Border>
+
+                    <!-- ========== 缺陷类型 ========== -->
+                    <Border Style="{StaticResource Card}" Margin="0,14,0,0">
+                        <StackPanel>
+                            <TextBlock Text="缺陷类型" Style="{StaticResource SectionText}" />
+
+                            <CheckBox x:Name="BrightToggle" Style="{StaticResource ToggleSwitch}" Content="常亮亮线（该列无法关闭）" Margin="0,0,0,12" Click="OnToggleChanged" />
+                            <CheckBox x:Name="DarkToggle" Style="{StaticResource ToggleSwitch}" Content="暗线 / 死列（该列不出光）" Margin="0,0,0,12" Click="OnToggleChanged" />
+                            <CheckBox x:Name="ColorStuckToggle" Style="{StaticResource ToggleSwitch}" Content="子像素卡死（纯红 / 绿 / 蓝等）" Margin="0,0,0,12" Click="OnToggleChanged" />
+                            <CheckBox x:Name="FlickerToggle" Style="{StaticResource ToggleSwitch}" Content="闪烁线（驱动排线接触不良）" Click="OnToggleChanged" />
+
+                            <TextBlock x:Name="KindHint"
+                                       Style="{StaticResource CaptionText}"
+                                       Margin="0,12,0,0"
+                                       Foreground="{StaticResource DangerBrush}"
+                                       Visibility="Collapsed"
+                                       Text="至少要保留一种缺陷类型。" />
+                        </StackPanel>
+                    </Border>
+
+                    <!-- ========== 交互 ========== -->
+                    <Border Style="{StaticResource Card}" Margin="0,14,0,0">
+                        <StackPanel>
+                            <TextBlock Text="交互" Style="{StaticResource SectionText}" />
+
+                            <TextBlock Style="{StaticResource LabelText}"
+                                       Text="切换展示态的全局热键"
+                                       Margin="0,0,0,8" />
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBox x:Name="HotkeyBox"
+                                         Grid.Column="0"
+                                         Style="{StaticResource InputBox}"
+                                         IsReadOnly="True"
+                                         IsReadOnlyCaretVisible="False"
+                                         Cursor="Hand"
+                                         PreviewKeyDown="OnHotkeyBoxKeyDown"
+                                         GotKeyboardFocus="OnHotkeyBoxGotFocus"
+                                         LostKeyboardFocus="OnHotkeyBoxLostFocus" />
+                                <Button Grid.Column="1"
+                                        Content="清除"
+                                        Style="{StaticResource GhostButton}"
+                                        Margin="8,0,0,0"
+                                        ToolTip="清除热键，改为通过托盘菜单切换展示态"
+                                        Click="OnResetHotkeyClick" />
+                            </Grid>
+
+                            <TextBlock x:Name="HotkeyHint" Style="{StaticResource CaptionText}" Margin="0,9,0,0" />
+
+                            <Border Style="{StaticResource Divider}" />
+
+                            <CheckBox x:Name="AutoStartToggle"
+                                      Style="{StaticResource ToggleSwitch}"
+                                      Content="开机自动启动"
+                                      Click="OnAutoStartChanged" />
+                        </StackPanel>
+                    </Border>
+
+                    <!-- ========== 区域 ========== -->
+                    <Border Style="{StaticResource Card}" Margin="0,14,0,0">
+                        <StackPanel>
+                            <TextBlock Text="已选区域" Style="{StaticResource SectionText}" />
+                            <TextBlock x:Name="RegionSummary" Style="{StaticResource CaptionText}" />
+                            <Button Content="清空全部区域"
+                                    Style="{StaticResource DangerButton}"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,14,0,0"
+                                    Click="OnClearRegionsClick" />
+                        </StackPanel>
+                    </Border>
+
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- ============ 底栏 ============ -->
+            <Grid Grid.Row="3" Margin="22,16,22,20">
+                <Button Content="恢复默认参数"
+                        Style="{StaticResource GhostButton}"
+                        HorizontalAlignment="Left"
+                        Click="OnResetStreakOptionsClick" />
+                <Button Content="完成"
+                        Style="{StaticResource PrimaryButton}"
+                        HorizontalAlignment="Right"
+                        MinWidth="104"
+                        Click="OnCloseClick" />
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

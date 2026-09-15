@@ -1,0 +1,30 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = crlf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+
+[*.{cs,csproj,props,targets,xaml,sln}]
+indent_size = 4
+
+[*.{json,yml,yaml,html,css,js,ts,kt,kts}]
+indent_size = 2
+
+[*.{ps1,psm1,psd1}]
+indent_size = 4
+
+[*.{bat,cmd}]
+end_of_line = crlf
+
+[*.md]
+trim_trailing_whitespace = false
+
+[*.cs]
+dotnet_sort_system_directives_first = true
+csharp_new_line_before_open_brace = all
+csharp_style_namespace_declarations = file_scoped:suggestion
+dotnet_diagnostic.CA1416.severity = none
+dotnet_diagnostic.IDE1006.severity = none

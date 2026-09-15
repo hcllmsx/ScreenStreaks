@@ -1,0 +1,93 @@
+<!--
+    ScreenStreaks —— 屏幕纵向线条缺陷模拟工具
+    Copyright (C) 2026 hcllmsx
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- ================================================================
+       基础配置
+       ================================================================ -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <RootNamespace>ScreenStreaks</RootNamespace>
+    <AssemblyName>ScreenStreaks</AssemblyName>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <!--
+      WFAC010: WinForms 建议改用 ApplicationHighDpiMode 配置 DPI。
+      本项目是 WPF 应用，只借 WinForms 拿托盘图标与 Screen 枚举，
+      DPI 感知必须由 app.manifest 的 PerMonitorV2 声明来驱动，故抑制该建议。
+    -->
+    <NoWarn>$(NoWarn);CA1416;WFAC010</NoWarn>
+  </PropertyGroup>
+
+  <!-- ================================================================
+       版本号：唯一来源 = 仓库根目录 VERSION 文件
+       - VERSION 内容形如 0.1.0（三段数字）
+       - AssemblyVersion / FileVersion 需要四段，自动补 .0
+       - 直接读取文件，改 VERSION 立即生效，无需任何同步动作
+       - 若 VERSION 缺失，回退为 0.0.0 以保证 IDE 内可继续工作
+       ================================================================ -->
+  <PropertyGroup>
+    <SsVersionFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\..\VERSION'))</SsVersionFile>
+    <SsVersion Condition="Exists('$(SsVersionFile)')">$([System.IO.File]::ReadAllText('$(SsVersionFile)').Trim())</SsVersion>
+    <SsVersion Condition="'$(SsVersion)' == ''">0.0.0</SsVersion>
+    <Version>$(SsVersion)</Version>
+    <AssemblyVersion>$(SsVersion).0</AssemblyVersion>
+    <FileVersion>$(SsVersion).0</FileVersion>
+    <InformationalVersion>$(SsVersion)</InformationalVersion>
+  </PropertyGroup>
+
+  <!-- ================================================================
+       产品信息
+       ================================================================ -->
+  <PropertyGroup>
+    <Product>ScreenStreaks</Product>
+    <Company>ScreenStreaks</Company>
+    <Description>屏幕纵向线条缺陷模拟工具</Description>
+    <Copyright>Copyright (c) 2026 hcllmsx</Copyright>
+    <NeutralLanguage>zh-Hans</NeutralLanguage>
+  </PropertyGroup>
+
+  <!-- ================================================================
+       应用图标：app.ico 与 app.png 都是入库资源，直接参与构建
+       保留 Exists 条件：文件缺失时降级为默认图标，而不是让构建失败
+       ================================================================ -->
+  <PropertyGroup Condition="Exists('Assets\app.ico')">
+    <ApplicationIcon>Assets\app.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup Condition="Exists('Assets\app.ico')">
+    <None Remove="Assets\app.ico" />
+    <Resource Include="Assets\app.ico" />
+  </ItemGroup>
+
+  <!-- 界面左上角徽标用的 PNG -->
+  <ItemGroup Condition="Exists('Assets\app.png')">
+    <None Remove="Assets\app.png" />
+    <Resource Include="Assets\app.png" />
+  </ItemGroup>
+
+</Project>
